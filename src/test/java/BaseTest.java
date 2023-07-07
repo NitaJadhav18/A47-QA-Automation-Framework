@@ -7,6 +7,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Parameters;
+
 import java.time.Duration;
 
 
@@ -14,7 +16,7 @@ import java.time.Duration;
 
 public class BaseTest {
     public static WebDriver driver = null;
-    public static String url="https://qa.koel.app/";
+    public static String url;
 
     @BeforeSuite
     static void setupClass() {
@@ -22,13 +24,16 @@ public class BaseTest {
     }
 
     @BeforeMethod
-    public void launchBrowser(){
+    @Parameters({"baseURL"})
+    public void launchBrowser(String baseURL){
         //      Added ChromeOptions argument below to fix websocket error
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
 
         driver= new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        url=baseURL;
+        driver.get(url);
     }
     @AfterMethod
     public void closeBrowser(){
@@ -36,84 +41,9 @@ public class BaseTest {
     }
 
    // Helper method
-    protected void openLoginUrl() {
-        driver.get(url);
-    }
-
-    protected void enterEmail(String email) {
-        WebElement emailField = driver.findElement(By.cssSelector("[type='email']"));
-        emailField.sendKeys(email);
-    }
-
-    protected void enterPassword(String password) {
-        WebElement passwordField = driver.findElement(By.cssSelector("[type='password']"));
-        passwordField.sendKeys(password);
-    }
-
-    protected void clickSubmit() {
-        WebElement submitButton = driver.findElement(By.cssSelector("button[type='submit']"));
-        submitButton.click();
-    }
-
-    protected String getNotificationText() throws InterruptedException {
-        Thread.sleep(2000);
-        WebElement notificationElement = driver.findElement(By.cssSelector("div.success.show"));
-        return notificationElement.getText();
-    }
-
-    protected void clickAddToButton() throws InterruptedException {
-        //click addto
-        WebElement addToButton = driver.findElement(By.cssSelector(".btn-add-to"));
-        addToButton.click();
-        //add into playlist
-        Thread.sleep(2000);
-    }
-
-    protected void selectSong() throws InterruptedException {
-        //select first song
-        WebElement firstSong = driver.findElement(By.cssSelector("#songResultsWrapper tr.song-item td.title"));
-        firstSong.click();
-        Thread.sleep(2000);
-        Thread.sleep(2000);
-    }
-
-    protected void addInToPlaylist() throws InterruptedException {
-        WebElement playlistButton = driver.findElement(By.xpath("//section[@id='songResultsWrapper']//li[contains(text( ),'My Playlist')]"));
-        playlistButton.click();
-        Thread.sleep(2000);
-    }
-
-    protected void viewAllSongs() throws InterruptedException {
-        WebElement viewAllField = driver.findElement(By.cssSelector("section.songs>h1>button"));
-        viewAllField.click();
-        Thread.sleep(2000);
-    }
-
-    protected void searchSong(String song) {
-        WebElement searchField = driver.findElement(By.cssSelector("[type='search']"));
-        searchField.click();
-        searchField.clear();
-        searchField.sendKeys(song);
-    }
-
-    @BeforeMethod
-    public void launchBrowser(){
-        //      Added ChromeOptions argument below to fix websocket error
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*");
-
-        driver= new ChromeDriver(options);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-    }
-    @AfterMethod
-    public void closeBrowser(){
-        driver.quit();
-    }
-
-    // Helper method
-    protected void openLoginUrl() {
-        driver.get(url);
-    }
+    //protected void openLoginUrl() {
+//        driver.get(url);
+//    }
 
     protected void enterEmail(String email) {
         WebElement emailField = driver.findElement(By.cssSelector("[type='email']"));
@@ -186,5 +116,23 @@ public class BaseTest {
     protected boolean checkSongPlaying() {
         WebElement pauseButtonElement= driver.findElement(By.cssSelector("[title='Pause']"));
         return pauseButtonElement.isDisplayed();
+    }
+
+    protected String deletePlaylistMessage() throws InterruptedException {
+        Thread.sleep(2000);
+        WebElement notificationMessageElement = driver.findElement(By.cssSelector("div.success.show"));
+        return notificationMessageElement.getText();
+        }
+
+    protected void clickDeletePlaylist() throws InterruptedException {
+        WebElement deletePlaylistButtonElement = driver.findElement(By.cssSelector("button.del.btn-delete-playlist"));
+        deletePlaylistButtonElement.click();
+        Thread.sleep(2000);
+    }
+
+    protected void selectPlaylist() throws InterruptedException {
+        WebElement existingPlaylist = driver.findElement(By.xpath("//li[@class='playlist playlist']//a[contains(text(),'Test')]"));
+        existingPlaylist.click();
+        Thread.sleep(2000);
     }
 }
