@@ -7,6 +7,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Parameters;
+
 import java.time.Duration;
 
 
@@ -14,7 +16,7 @@ import java.time.Duration;
 
 public class BaseTest {
     public static WebDriver driver = null;
-    public static String url="https://qa.koel.app/";
+    public static String url;
 
     @BeforeSuite
     static void setupClass() {
@@ -22,13 +24,16 @@ public class BaseTest {
     }
 
     @BeforeMethod
-    public void launchBrowser(){
+    @Parameters({"baseURL"})
+    public void launchBrowser(String baseURL){
         //      Added ChromeOptions argument below to fix websocket error
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
 
         driver= new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        url=baseURL;
+        driver.get(url);
     }
     @AfterMethod
     public void closeBrowser(){
@@ -36,9 +41,9 @@ public class BaseTest {
     }
 
    // Helper method
-    protected void openLoginUrl() {
-        driver.get(url);
-    }
+    //protected void openLoginUrl() {
+//        driver.get(url);
+//    }
 
     protected void enterEmail(String email) {
         WebElement emailField = driver.findElement(By.cssSelector("[type='email']"));
@@ -94,5 +99,40 @@ public class BaseTest {
         searchField.click();
         searchField.clear();
         searchField.sendKeys(song);
+    }
+
+    protected void clickPlayButton() throws InterruptedException {
+        WebElement playButtonElement= driver.findElement(By.cssSelector("[title='Play or resume']"));
+        playButtonElement.click();
+        Thread.sleep(2000);
+    }
+
+    protected void clickPlaynextSong() throws InterruptedException {
+        WebElement playnextSongElement = driver.findElement(By.cssSelector("[title='Play next song']"));
+        playnextSongElement.click();
+        Thread.sleep(2000);
+    }
+
+    protected boolean checkSongPlaying() {
+        WebElement pauseButtonElement= driver.findElement(By.cssSelector("[title='Pause']"));
+        return pauseButtonElement.isDisplayed();
+    }
+
+    protected String deletePlaylistMessage() throws InterruptedException {
+        Thread.sleep(2000);
+        WebElement notificationMessageElement = driver.findElement(By.cssSelector("div.success.show"));
+        return notificationMessageElement.getText();
+        }
+
+    protected void clickDeletePlaylist() throws InterruptedException {
+        WebElement deletePlaylistButtonElement = driver.findElement(By.cssSelector("button.del.btn-delete-playlist"));
+        deletePlaylistButtonElement.click();
+        Thread.sleep(2000);
+    }
+
+    protected void selectPlaylist() throws InterruptedException {
+        WebElement existingPlaylist = driver.findElement(By.xpath("//li[@class='playlist playlist']//a[contains(text(),'Test')]"));
+        existingPlaylist.click();
+        Thread.sleep(2000);
     }
 }
