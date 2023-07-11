@@ -8,8 +8,8 @@ public class HomePage extends BasePage{
     public HomePage(WebDriver givenDriver) {
         super(givenDriver);
     }
-    By playlistElement = By.cssSelector(".playlist.playlist:nth-child(3)");
-    By newPlaylistInputField = By.cssSelector("[name='name']");
+    private By playlistElement = By.cssSelector(".playlist.playlist:nth-child(3)");
+    private By newPlaylistInputField = By.cssSelector("[name='name']");
 
 
     //For Rename Playlist Methods
