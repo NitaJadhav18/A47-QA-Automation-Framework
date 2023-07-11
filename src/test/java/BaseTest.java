@@ -152,16 +152,16 @@ public class BaseTest {
         clickSubmit();
     }
     //Rename Playlist Helper Methods
-    String newPlaylistName = "My Songs";
-    protected boolean playlistExist() {
-       WebElement existingPlaylistElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='"+ newPlaylistName + "']")));
-       return existingPlaylistElement.isDisplayed();
-    }
+
+//    protected boolean playlistExist() {
+//       WebElement existingPlaylistElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='"+ newPlaylistName + "']")));
+//       return existingPlaylistElement.isDisplayed();
+//    }
 
     public void enterNewPlaylistName() {
        WebElement newPlaylistNameInputField = wait.until((ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[name='name']"))));
        newPlaylistNameInputField.sendKeys(Keys.chord(Keys.CONTROL,"A",Keys.BACK_SPACE));
-       newPlaylistNameInputField.sendKeys(newPlaylistName);
+    //   newPlaylistNameInputField.sendKeys(newPlaylistName);
        newPlaylistNameInputField.sendKeys(Keys.ENTER);
     }
 
