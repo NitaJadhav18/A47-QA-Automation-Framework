@@ -9,11 +9,7 @@ public class Homework17 extends BaseTest{
         //Open LoginUrl
 
         //Enter Email
-        enterEmail("nita.jadhav@testpro.io");
-        //Enter Password
-        enterPassword("te$t$tudent");
-        //click Submit button
-        clickSubmit();
+        login();
         //Search a song
         searchSong("Ketsa");
         //View Songs
