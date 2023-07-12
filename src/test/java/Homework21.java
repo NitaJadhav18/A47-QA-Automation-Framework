@@ -10,14 +10,11 @@ public class Homework21 extends BaseTest {
        HomePage homePage = new HomePage(driver);
        String newPlaylistName = "My Songs";
 
-       loginPage.enterEmail("nita.jadhav@testpro.io");
-       loginPage.enterPassword("te$t$tudent");
-       loginPage.clickSubmit();
-
+       loginPage.enterEmail("nita.jadhav@testpro.io").enterPassword("te$t$tudent").clickSubmit();
        homePage.doubleClickToPlaylist();
        homePage.enterNewPlaylistName(newPlaylistName);
 
        //check playlist is rename or not
-       Assert.assertTrue(homePage.playlistExist(newPlaylistName));
+      Assert.assertTrue(homePage.playlistExist(newPlaylistName));
    }
 }
