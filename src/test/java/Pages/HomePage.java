@@ -15,8 +15,8 @@ public class HomePage extends BasePage{
     private WebElement playlistElement;
     @FindBy(css="[name='name']")
     private WebElement newPlaylistInputField;
-    @FindBy(css = ".profile .avatar")
-    private WebElement avatarIconElement;
+//    @FindBy(css = ".profile .avatar")
+//    private WebElement avatarIconElement;
 
     //For Rename Playlist Methods
     public void doubleClickToPlaylist(){
@@ -34,6 +34,7 @@ public class HomePage extends BasePage{
     }
 
     public boolean isAvatarDisplayed() {
-        return avatarIconElement.isDisplayed();
+        By avatarIconElement = By.cssSelector(".profile .avatar");
+        return findElement(avatarIconElement).isDisplayed();
     }
 }
