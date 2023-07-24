@@ -16,6 +16,9 @@ public class LoginPage extends BasePage{
     @FindBy(css = "button[type='submit']")
     private WebElement submitBtn;
 
+    @FindBy(css="#hel")
+    private WebElement registrationLink;
+
     //Login Helper Methods
     public LoginPage enterEmail(String email){
         emailField.sendKeys(email);
@@ -30,4 +33,13 @@ public class LoginPage extends BasePage{
         return this;
     }
 
+    public void clickRegistrationLink() {
+        registrationLink.click();
+    }
+
+    public void login() {
+        enterEmail("nita.jadhav@testpro.io");
+        enterPassword("te$t$tudent");
+        clickSubmit();
+    }
 }

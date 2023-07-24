@@ -16,18 +16,16 @@ public class LoginTests extends BaseTest {
         loginPage.enterEmail("nita.jadhav@testpro.io").enterPassword("te$t$tudent").clickSubmit();
         Assert.assertTrue(homePage.isAvatarDisplayed());
     }
-
     @Test
     public void LoginInvalidEmailPasswordTest() {
         LoginPage loginPage = new LoginPage(getDriver());
         loginPage.enterEmail("123@gmail.com").enterPassword("abcdef").clickSubmit();
         Assert.assertEquals(getDriver().getCurrentUrl(), url);
     }
-
     @Test
-    public void LoginEmptyEmailPasswordTest() {
+    public void LoginEmptyPasswordTest() {
         LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.enterEmail(" ").enterPassword(" ").clickSubmit();
+        loginPage.enterEmail("nita.jadhav@testpro.io ").enterPassword(" ").clickSubmit();
         Assert.assertEquals(getDriver().getCurrentUrl(), url);
     }
     @Test
